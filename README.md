@@ -58,9 +58,7 @@ cmake ..
 make all
 ```
 
-
-
-# Crazyswarm2 and Model Predictive Control Case Study
+## ros2_ws
 This section follows the setup of CrazySwarm2 with CrazySim and demonstrating a case study that uses a model predictive controller (MPC) with Acados to track a set of predefined temporally parametrized trajectories.
 
 Make sure you have ROS 2 [Humble](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html). 
@@ -80,7 +78,7 @@ cd ros2_ws
 colcon build --symlink-install
 ```
 
-### Configuration
+## Configuration
 The crazyswarm2  configuration files can be found in 
 ```bash
 ros2_ws/src/crazyswarm2/crazyflie/config/
