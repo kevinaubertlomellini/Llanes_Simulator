@@ -21,7 +21,3 @@
 [submodule "crazyswarm2"]
 	path = ros2_ws/src/crazyswarm2
 	url = https://github.com/kevinaubertlomellini/crazyswarm2
-[submodule "ros2_ws/src/crazyswarm2"]
-	path = ros2_ws/src/crazyswarm2
-	url = https://github.com/kevinaubertlomellini/crazyswarm2
-        branch = sitl
