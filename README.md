@@ -26,7 +26,7 @@ This simulator is currently only supported on Ubuntu systems with at least 20.04
 
 To install this repository use the recursive command as shown below for HTTPS:
 ```bash
-git clone https://github.com/gtfactslab/Llanes_ICRA2024.git --recursive
+git clone https://github.com/kevinaubertlomellini/Llanes_simulator.git --recursive
 ```
 
 ## crazyflie-lib-python
@@ -34,18 +34,6 @@ git clone https://github.com/gtfactslab/Llanes_ICRA2024.git --recursive
 cd crazyflie-lib-python
 pip install -e .
 ```
-
-## crazyflie-clients-python [Optional]
-[WARNING] This modified client package is only for software-in-the-loop and has several hardware specific features disabled. Do not use this package for your hardware.
-
-If you want to test a single Crazyflie with a custom crazyflie-clients-python for SITL, then run the following command in your terminal. If pip reinstalls cflib, then you may have to remove it and install from source above.
-
-```bash
-cd crazyflie-clients-python
-pip install -e .
-```
-
-https://github.com/gtfactslab/Llanes_ICRA2024/assets/40842920/88fdad50-59a2-4810-bfb2-43c54308ce70
 
 
 ## crazyflie-firmware
@@ -125,11 +113,6 @@ ros2_ws/src/crazyswarm2/crazyflie/config/
 ```
 The crazyflies.yaml describes the robots currently being used. If a robot is not in the simulator or hardware, then it can be disabled by setting the enabled parameter to false. A more detailed description for crazyswarm2 configurations can be found [here](https://imrclab.github.io/crazyswarm2/usage.html).
 
-The main code for the MPC script is in the following:
-```bash
-ros2_ws/crazyflie_mpc/crazyflie_mpc/crazyflie_multiagent_mpc.py
-```
-The trajectory type can be changed to a horizontal circle, vertical circle, helix, or a lemniscate trajectory by changing the variable "trajectory_type" in the CrazyflieMPC class.
 
 ### Start up the Firmware
 Start up the firmware with any of the 3 launch script options. Below we demonstrate 4 Crazyflies in a square formation.
@@ -143,26 +126,3 @@ Make sure that `cf_1`, `cf_2`, `cf_3`, and `cf_4` are enabled in the CrazySwarm2
 ros2 launch crazyflie launch.py backend:=cflib
 ```
 
-### Start MPC code
-### 
-Run the Crazyflie MPC demonstration with the code below. The argument `n_agents` can be modified for the number of agents in your environment.
-```bash
-ros2 run crazyflie_mpc crazyflie_multiagent_mpc --n_agents=4
-```
-
-Using the command line publisher we can command all vehicles to take off using MPC.
-```bash
-ros2 topic pub -t 50 -r 50 /all/mpc_takeoff std_msgs/msg/Empty
-```
-
-Using the command line publisher we can command all vehicles to start the trajectory.
-```bash
-ros2 topic pub -t 50 -r 50 /all/mpc_trajectory std_msgs/msg/Empty
-```
-
-Using the command line publisher we can command all vehicles to stop the trajectory and hover.
-```bash
-ros2 topic pub -t 50 -r 50 /all/mpc_hover std_msgs/msg/Empty
-```
-
-We also implemented a MPC land feature, but it's still experimental and may result in crashing the drone.
