@@ -114,4 +114,24 @@ bash tools/crazyflie-simulation/simulator_files/gazebo/launch/sitl_multiagent_sq
 bash tools/crazyflie-simulation/simulator_files/gazebo/launch/sitl_multiagent_text.sh -m crazyflie
 ```
 
+## Start up Crazyswarm2 CFLib environment
 Now you can run any CFLib Python script with URI `udp://0.0.0.0:19850`. For drone swarms increment the port for each additional drone.
+
+Run the next command:
+```bash
+ros2 launch crazyflie launch.py backend:=cflib
+```
+
+## Python example
+Run the next command:
+```bash
+ros2 run crazyflie_examples hello_world
+```
+Other examples located in 
+```bash
+ros2_ws/src/crazyswarm2/crazyflie_examples/crazyflie_examples/
+```
+
+
+
+
