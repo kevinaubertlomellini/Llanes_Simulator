@@ -4,7 +4,7 @@
 	branch = sitl-release
 [submodule "crazyflie-lib-python"]
 	path = crazyflie-lib-python
-	url = https://github.com/llanesc/crazyflie-lib-python.git
+	url = https://github.com/kevinaubertlomellini/crazyflie-lib-python.git
 	branch = sitl-release
 [submodule "ros2_ws/src/crazyflie_mpc"]
 	path = ros2_ws/src/crazyflie_mpc
@@ -16,7 +16,7 @@
 	branch = ros2
 [submodule "crazyflie-clients-python"]
 	path = crazyflie-clients-python
-	url = https://github.com/kevinaubertlomellini/crazyflie-clients-python.git
+	url = https://github.com/llanesc/crazyflie-clients-python.git
 	branch = sitl-release
 [submodule "crazyswarm2"]
 	path = ros2_ws/src/crazyswarm2
