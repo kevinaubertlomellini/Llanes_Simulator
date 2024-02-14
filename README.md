@@ -58,33 +58,7 @@ cmake ..
 make all
 ```
 
-## Usage
-Currently, users have to restart Gazebo after each CFLib connect and disconnect cycle. Supporting a restart cycle without restarting Gazebo is on the list of things to do.
 
-### Start up SITL
-Open a terminal and run
-```bash
-cd crazyflie-firmware
-```
-
-We can then run the firmware instance and spawn the models with Gazebo using a single launch script.
-
-#### Option 1: Spawning a single crazyflie model with initial position (x = 0, y = 0)
-```bash
-bash tools/crazyflie-simulation/simulator_files/gazebo/launch/sitl_singleagent.sh -m crazyflie -x 0 -y 0
-```
-
-#### Option 2: Spawning 8 crazyflie models to form a perfect square
-```bash
-bash tools/crazyflie-simulation/simulator_files/gazebo/launch/sitl_multiagent_square.sh -n 8 -m crazyflie
-```
-
-#### Option 3: Spawning multiple crazyflie models with positions defined in the *agents.txt* file. New vehicles are defined by adding a new line with comma deliminated initial position *x,y*.
-```bash
-bash tools/crazyflie-simulation/simulator_files/gazebo/launch/sitl_multiagent_text.sh -m crazyflie
-```
-
-Now you can run any CFLib Python script with URI `udp://0.0.0.0:19850`. For drone swarms increment the port for each additional drone.
 
 # Crazyswarm2 and Model Predictive Control Case Study
 This section follows the setup of CrazySwarm2 with CrazySim and demonstrating a case study that uses a model predictive controller (MPC) with Acados to track a set of predefined temporally parametrized trajectories.
@@ -119,11 +93,33 @@ ros2_ws/crazyflie_mpc/crazyflie_mpc/crazyflie_multiagent_mpc.py
 ```
 The trajectory type can be changed to a horizontal circle, vertical circle, helix, or a lemniscate trajectory by changing the variable "trajectory_type" in the CrazyflieMPC class.
 
-### Start up the Firmware
-Start up the firmware with any of the 3 launch script options. Below we demonstrate 4 Crazyflies in a square formation.
+## Usage
+Currently, users have to restart Gazebo after each CFLib connect and disconnect cycle. Supporting a restart cycle without restarting Gazebo is on the list of things to do.
+
+### Start up SITL
+Open a terminal and run
 ```bash
-bash tools/crazyflie-simulation/simulator_files/gazebo/launch/sitl_multiagent_square.sh -n 4 -m crazyflie
+cd crazyflie-firmware
 ```
+
+We can then run the firmware instance and spawn the models with Gazebo using a single launch script.
+
+#### Option 1: Spawning a single crazyflie model with initial position (x = 0, y = 0)
+```bash
+bash tools/crazyflie-simulation/simulator_files/gazebo/launch/sitl_singleagent.sh -m crazyflie -x 0 -y 0
+```
+
+#### Option 2: Spawning 8 crazyflie models to form a perfect square
+```bash
+bash tools/crazyflie-simulation/simulator_files/gazebo/launch/sitl_multiagent_square.sh -n 8 -m crazyflie
+```
+
+#### Option 3: Spawning multiple crazyflie models with positions defined in the *agents.txt* file. New vehicles are defined by adding a new line with comma deliminated initial position *x,y*.
+```bash
+bash tools/crazyflie-simulation/simulator_files/gazebo/launch/sitl_multiagent_text.sh -m crazyflie
+```
+
+Now you can run any CFLib Python script with URI `udp://0.0.0.0:19850`. For drone swarms increment the port for each additional drone.
 
 ### Start Crazyswarm2
 Make sure that `cf_1`, `cf_2`, `cf_3`, and `cf_4` are enabled in the CrazySwarm2 configuration YAML file. Launch the Crazyswarm2 services with CFLib backend.
