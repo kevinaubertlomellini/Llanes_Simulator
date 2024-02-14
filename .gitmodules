@@ -19,5 +19,5 @@
 	url = https://github.com/llanesc/crazyflie-clients-python.git
 	branch = sitl-release
 [submodule "crazyswarm2"]
-	path = crazyswarm2
+	path = ros2_ws/src/crazyswarm2
 	url = https://github.com/kevinaubertlomellini/crazyswarm2
