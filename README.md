@@ -26,7 +26,7 @@ This simulator is currently only supported on Ubuntu systems with at least 20.04
 
 To install this repository use the recursive command as shown below for HTTPS:
 ```bash
-git clone https://github.com/gtfactslab/Llanes_ICRA2024.git --recursive
+git clone https://github.com/kevinaubertlomellini/Llanes_simulator.git --recursive
 ```
 
 ## crazyflie-lib-python
@@ -34,18 +34,6 @@ git clone https://github.com/gtfactslab/Llanes_ICRA2024.git --recursive
 cd crazyflie-lib-python
 pip install -e .
 ```
-
-## crazyflie-clients-python [Optional]
-[WARNING] This modified client package is only for software-in-the-loop and has several hardware specific features disabled. Do not use this package for your hardware.
-
-If you want to test a single Crazyflie with a custom crazyflie-clients-python for SITL, then run the following command in your terminal. If pip reinstalls cflib, then you may have to remove it and install from source above.
-
-```bash
-cd crazyflie-clients-python
-pip install -e .
-```
-
-https://github.com/gtfactslab/Llanes_ICRA2024/assets/40842920/88fdad50-59a2-4810-bfb2-43c54308ce70
 
 
 ## crazyflie-firmware
@@ -69,6 +57,36 @@ mkdir -p sitl_make/build && cd $_
 cmake ..
 make all
 ```
+
+## ROS 2 workspace
+
+Make sure you have ROS 2 [Humble](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html). 
+
+Install the following for Crazyswarm2:
+```bash
+sudo apt install libboost-program-options-dev libusb-1.0-0-dev
+pip3 install rowan transforms3d
+sudo apt install ros-humble-tf-transformations
+```
+
+Then build the ROS 2 workspace.
+```bash
+cd ros2_ws
+colcon build --symlink-install
+```
+
+## Configuration
+The crazyswarm2  configuration files can be found in 
+```bash
+ros2_ws/src/crazyswarm2/crazyflie/config/
+```
+The crazyflies.yaml describes the robots currently being used. If a robot is not in the simulator or hardware, then it can be disabled by setting the enabled parameter to false. A more detailed description for crazyswarm2 configurations can be found [here](https://imrclab.github.io/crazyswarm2/usage.html).
+
+The main code for the MPC script is in the following:
+```bash
+ros2_ws/crazyflie_mpc/crazyflie_mpc/crazyflie_multiagent_mpc.py
+```
+The trajectory type can be changed to a horizontal circle, vertical circle, helix, or a lemniscate trajectory by changing the variable "trajectory_type" in the CrazyflieMPC class.
 
 ## Usage
 Currently, users have to restart Gazebo after each CFLib connect and disconnect cycle. Supporting a restart cycle without restarting Gazebo is on the list of things to do.
@@ -97,72 +115,3 @@ bash tools/crazyflie-simulation/simulator_files/gazebo/launch/sitl_multiagent_te
 ```
 
 Now you can run any CFLib Python script with URI `udp://0.0.0.0:19850`. For drone swarms increment the port for each additional drone.
-
-# Crazyswarm2 and Model Predictive Control Case Study
-This section follows the setup of CrazySwarm2 with CrazySim and demonstrating a case study that uses a model predictive controller (MPC) with Acados to track a set of predefined temporally parametrized trajectories.
-
-Make sure you have ROS 2 [Humble](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html). 
-
-Install the following for Crazyswarm2:
-```bash
-sudo apt install libboost-program-options-dev libusb-1.0-0-dev
-pip3 install rowan transforms3d
-sudo apt install ros-humble-tf-transformations
-```
-
-If you want to run the MPC code then you will need Acados. Acados can be installed by following their [documentation](https://docs.acados.org/installation/index.html).
-
-Then build the ROS 2 workspace.
-```bash
-cd ros2_ws
-colcon build --symlink-install
-```
-
-### Configuration
-The crazyswarm2  configuration files can be found in 
-```bash
-ros2_ws/src/crazyswarm2/crazyflie/config/
-```
-The crazyflies.yaml describes the robots currently being used. If a robot is not in the simulator or hardware, then it can be disabled by setting the enabled parameter to false. A more detailed description for crazyswarm2 configurations can be found [here](https://imrclab.github.io/crazyswarm2/usage.html).
-
-The main code for the MPC script is in the following:
-```bash
-ros2_ws/crazyflie_mpc/crazyflie_mpc/crazyflie_multiagent_mpc.py
-```
-The trajectory type can be changed to a horizontal circle, vertical circle, helix, or a lemniscate trajectory by changing the variable "trajectory_type" in the CrazyflieMPC class.
-
-### Start up the Firmware
-Start up the firmware with any of the 3 launch script options. Below we demonstrate 4 Crazyflies in a square formation.
-```bash
-bash tools/crazyflie-simulation/simulator_files/gazebo/launch/sitl_multiagent_square.sh -n 4 -m crazyflie
-```
-
-### Start Crazyswarm2
-Make sure that `cf_1`, `cf_2`, `cf_3`, and `cf_4` are enabled in the CrazySwarm2 configuration YAML file. Launch the Crazyswarm2 services with CFLib backend.
-```bash
-ros2 launch crazyflie launch.py backend:=cflib
-```
-
-### Start MPC code
-### 
-Run the Crazyflie MPC demonstration with the code below. The argument `n_agents` can be modified for the number of agents in your environment.
-```bash
-ros2 run crazyflie_mpc crazyflie_multiagent_mpc --n_agents=4
-```
-
-Using the command line publisher we can command all vehicles to take off using MPC.
-```bash
-ros2 topic pub -t 50 -r 50 /all/mpc_takeoff std_msgs/msg/Empty
-```
-
-Using the command line publisher we can command all vehicles to start the trajectory.
-```bash
-ros2 topic pub -t 50 -r 50 /all/mpc_trajectory std_msgs/msg/Empty
-```
-
-Using the command line publisher we can command all vehicles to stop the trajectory and hover.
-```bash
-ros2 topic pub -t 50 -r 50 /all/mpc_hover std_msgs/msg/Empty
-```
-
-We also implemented a MPC land feature, but it's still experimental and may result in crashing the drone.
