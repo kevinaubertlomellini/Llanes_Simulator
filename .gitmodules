@@ -2,6 +2,9 @@
 	path = crazyflie-firmware
 	url = https://github.com/llanesc/crazyflie-firmware.git
 	branch = sitl-release
+[submodule "crazyflie-lib-python"]
+	path = crazyflie-lib-python
+	url = https://github.com/kevinaubertlomellini/crazyflie-lib-python.git
 [submodule "ros2_ws/src/motion_capture_tracking"]
 	path = ros2_ws/src/motion_capture_tracking
 	url = https://github.com/IMRCLab/motion_capture_tracking.git
