@@ -119,6 +119,7 @@ Now you can run any CFLib Python script with URI `udp://0.0.0.0:19850`. For dron
 
 Run the next command:
 ```bash
+. install/local_setup.bash
 ros2 launch crazyflie launch.py backend:=cflib
 ```
 
